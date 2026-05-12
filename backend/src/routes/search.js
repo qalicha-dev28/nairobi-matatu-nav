@@ -1,18 +1,28 @@
+const searchService = require('../services/searchService');
+
 async function searchRoutes(fastify, options) {
   fastify.post('/', async (request, reply) => {
-    const { origin, destination, preferences } = request.body;
-    
-    // Placeholder response for now
-    return {
-      search_id: 'placeholder-uuid',
-      results: [],
-      meta: {
-        total_results: 0,
-        cache_hit: false,
-        response_time_ms: 0,
-        timestamp: new Date().toISOString()
+    try {
+      const { origin, destination, preferences } = request.body;
+      
+      // Validate input
+      if (!origin || !destination) {
+        reply.code(400);
+        return { error: 'Origin and destination are required' };
       }
-    };
+      
+      const originValue = origin.type === 'gps' ? 'Current Location' : origin.value;
+      const destinationValue = destination.value;
+      
+      const results = await searchService.search(originValue, destinationValue, preferences);
+      
+      return results;
+      
+    } catch (err) {
+      fastify.log.error(err);
+      reply.code(500);
+      return { error: 'Internal server error' };
+    }
   });
 }
 
