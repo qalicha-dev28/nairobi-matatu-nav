@@ -1,0 +1,31 @@
+{
+  "name": "nairobi-matatu-nav-backend",
+  "version": "1.0.0",
+  "description": "Nairobi matatu navigation API",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "keywords": ["matatu", "nairobi", "transport", "api"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "fastify": "^4.26.0",
+    "@fastify/cors": "^9.0.0",
+    "@fastify/env": "^4.3.0",
+    "@fastify/postgres": "^5.0.0",
+    "pg": "^8.11.0",
+    "redis": "^4.6.0",
+    "ioredis": "^5.3.0",
+    "dotenv": "^16.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.0",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.0"
+  }
+}
