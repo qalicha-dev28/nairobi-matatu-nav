@@ -2,13 +2,13 @@ services:
   postgres:
     image: postgis/postgis:15-3.3
     container_name: nairobi-postgres
-    restart: unless-stopped
+    restart: always
     environment:
       POSTGRES_USER: matatu_user
       POSTGRES_PASSWORD: matatu_pass
       POSTGRES_DB: nairobi_matatu_db
     ports:
-      - "5432:5432"
+      - "127.0.0.1:5432:5432"  # Bind to localhost only for security
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./backend/migrations:/docker-entrypoint-initdb.d
@@ -23,9 +23,9 @@ services:
   redis:
     image: redis:7-alpine
     container_name: nairobi-redis
-    restart: unless-stopped
+    restart: always
     ports:
-      - "6379:6379"
+      - "127.0.0.1:6379:6379"  # Bind to localhost only for security
     volumes:
       - redis_data:/data
     networks:
@@ -44,3 +44,6 @@ volumes:
 networks:
   nairobi-network:
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16  # Fixed subnet for stable IPs
